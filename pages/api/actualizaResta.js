@@ -30,7 +30,10 @@ export default async function handler(req, res) {
 
   try {
     await mongoDB();
+    // ".exec" Busca el usuario y espera el resultado de la base de datos antes de seguir.
     const usuario = await listadoUsuarios.findById(idUser).exec();
+    // await y .exec()
+    // El código se detenga hasta obtener la respuesta de la base de datos.
 
     if (!usuario) {
       return res.status(404).json({ message: "Usuario no encontrado" });
@@ -43,7 +46,10 @@ export default async function handler(req, res) {
 
   
     // Buscar el producto en el carrito basado en el nombre y precio
+    /* El método .find() recorre el array y devuelve 
+    el primer elemento que cumpla con la condición especificada. */
     const productoExistente = usuario.carrito.find(
+      // p representa cada producto en el carrito.
         (p) => p.username === productoData.username && p.precio === productoData.precio
     );
 
