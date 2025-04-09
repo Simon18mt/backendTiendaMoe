@@ -35,16 +35,21 @@ export default async function handler(req, res) {
 
     try {
         await mongoDB();
+
+        // Busca el usuario por ID
         const usuarioExiste = await listadoUsuarios.findById(idUser).exec();
 
+        // Si no existe el usuario, devuelve error 404
         if (!usuarioExiste) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
+        // Si el carrito no existe o no es un arreglo, lo inicializa como arreglo vacío
         if (!Array.isArray(usuarioExiste.carrito)) {
             usuarioExiste.carrito = [];
         }
 
+        // Crea un ObjectId a partir del ID del producto recibido
         const productoId = new ObjectId(productoData._id);
 
         // 🔹 Buscar si el producto ya está en el carrito

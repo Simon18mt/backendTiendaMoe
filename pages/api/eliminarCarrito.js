@@ -38,21 +38,21 @@ export default async function handler(req, res) {
     const idUserObjectId = new ObjectId(idUser);
     const idCarritoObjectId = new ObjectId(idCarrito);
 
-    // Verificar si el carrito existe
-    const buscarCarrito = await collection.findOne({
-      _id: idUserObjectId,
-      "carrito._id": idCarritoObjectId,
-    });
+  // 🔍 Busca si el carrito con ese producto existe dentro del usuario
+  const buscarCarrito = await collection.findOne({
+    _id: idUserObjectId,                     // Buscar por el ID del usuario
+    "carrito._id": idCarritoObjectId        // Y que dentro del carrito haya un producto con ese ID
+  });
 
     if (!buscarCarrito) {
       return res.status(404).json({ error: "Producto no encontrado en el carrito" });
     }
 
-    // Eliminar el producto del carrito
-    const result = await collection.updateOne(
-      { _id: idUserObjectId },
-      { $pull: { carrito: { _id: idCarritoObjectId } } }
-    );
+  // 🧹 Elimina el producto del arreglo 'carrito' del usuario
+  const result = await collection.updateOne(
+    { _id: idUserObjectId }, // Buscar al usuario
+    { $pull: { carrito: { _id: idCarritoObjectId } } } // Eliminar el producto del carrito
+  );
 
     if (result.modifiedCount === 0) {
       return res.status(400).json({ error: "No se pudo eliminar el producto del carrito" });

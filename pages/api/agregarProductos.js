@@ -18,6 +18,9 @@ export default async function handler (req, res){
     }
 
 
+    //  valida los datos que vienen en el req.body
+    /* Aquí se llama al método validate() del modelo datosProductos, 
+    pasándole el objeto enviado desde el frontend (req.body). */
     const errores = datosProductos.validate(req.body)
     if(errores.length > 0){
         return res.status(400).json({error:"error en el DTO",errores});

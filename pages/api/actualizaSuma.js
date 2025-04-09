@@ -43,6 +43,9 @@ export default async function handler(req, res) {
 
   
     // Buscar el producto en el carrito basado en el nombre y precio
+    /* El método .find() recorre el array y devuelve 
+    el primer elemento que cumpla con la condición especificada. */
+    // Buscar el producto en el carrito basado en el nombre y precio
     const productoExistente = usuario.carrito.find(
         (p) => p.username === productoData.username && p.precio === productoData.precio
     );
